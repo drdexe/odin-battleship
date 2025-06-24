@@ -11,24 +11,24 @@ test("Places horizontal ship correctly", () => {
   const ship = new Ship(3);
   testBoard.placeShip(ship, [0, 0], false);
   expect(testBoard.board[0][0].ship).toBe(ship);
-  expect(testBoard.board[1][0].ship).toBe(ship);
-  expect(testBoard.board[2][0].ship).toBe(ship);
+  expect(testBoard.board[0][1].ship).toBe(ship);
+  expect(testBoard.board[0][2].ship).toBe(ship);
 });
 
 test("Places vertical ship correctly", () => {
   const ship = new Ship(3);
-  testBoard.placeShip(ship, [9, 7], true);
-  expect(testBoard.board[9][7].ship).toBe(ship);
-  expect(testBoard.board[9][8].ship).toBe(ship);
+  testBoard.placeShip(ship, [7, 9], true);
+  expect(testBoard.board[7][9].ship).toBe(ship);
+  expect(testBoard.board[8][9].ship).toBe(ship);
   expect(testBoard.board[9][9].ship).toBe(ship);
 });
 
 test("Throws error on out of bounds ship placement", () => {
-  expect(() => testBoard.placeShip(new Ship(5), [7, 0], false)).toThrow();
+  expect(() => testBoard.placeShip(new Ship(5), [0, 7], false)).toThrow();
 });
 
 test("Throws error on colliding ship placement", () => {
-  testBoard.placeShip(new Ship(5), [0, 5], false);
+  testBoard.placeShip(new Ship(5), [5, 0], false);
   expect(() => testBoard.placeShip(new Ship(5), [2, 2], true)).toThrow();
 });
 
@@ -44,7 +44,7 @@ test("Sinks ship on final attack", () => {
   const ship = new Ship(2);
   testBoard.placeShip(ship, [0, 0], false);
   testBoard.receiveAttack([0, 0]);
-  testBoard.receiveAttack([1, 0]);
+  testBoard.receiveAttack([0, 1]);
   expect(ship.sunk).toBe(true);
 });
 

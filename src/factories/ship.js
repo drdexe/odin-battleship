@@ -1,4 +1,6 @@
 export default class Ship {
+  static LENGTHS = [5, 4, 3, 3, 2];
+  
   constructor(length) {
     this.length = length;
     this.hits = 0;

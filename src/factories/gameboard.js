@@ -13,33 +13,33 @@ export default class Gameboard {
   }
 
   placeShip(ship, coords, isVertical) {
-    const [x, y] = coords;
+    const [row, col] = coords;
 
     if (
-      x < 0 ||
-      y < 0 ||
-      x >= Gameboard.SIZE ||
-      y >= Gameboard.SIZE ||
-      (!isVertical && x + ship.length > Gameboard.SIZE) ||
-      (isVertical && y + ship.length > Gameboard.SIZE)
+      row < 0 ||
+      col < 0 ||
+      row >= Gameboard.SIZE ||
+      col >= Gameboard.SIZE ||
+      (isVertical && row + ship.length > Gameboard.SIZE) ||
+      (!isVertical && col + ship.length > Gameboard.SIZE)
     ) {
       throw new Error("Invalid placement.");
     }
 
     for (let i = 0; i < ship.length; i++) {
       if (
-        (!isVertical && this.board[x + i][y].ship !== null) ||
-        (isVertical && this.board[x][y + i].ship !== null)
+        (isVertical && this.board[row + i][col].ship !== null) ||
+        (!isVertical && this.board[row][col + i].ship !== null)
       ) {
         throw new Error("Invalid placement.");
       }
     }
 
     for (let i = 0; i < ship.length; i++) {
-      if (!isVertical) {
-        this.board[x + i][y].ship = ship;
+      if (isVertical) {
+        this.board[row + i][col].ship = ship;
       } else {
-        this.board[x][y + i].ship = ship;
+        this.board[row][col + i].ship = ship;
       }
     }
 
@@ -47,25 +47,25 @@ export default class Gameboard {
   }
 
   receiveAttack(coords) {
-    const [x, y] = coords;
+    const [row, col] = coords;
 
     if (
-      x < 0 ||
-      y < 0 ||
-      x >= Gameboard.SIZE ||
-      y >= Gameboard.SIZE ||
-      this.board[x][y].hasAttack
+      row < 0 ||
+      col < 0 ||
+      row >= Gameboard.SIZE ||
+      col >= Gameboard.SIZE ||
+      this.board[row][col].hasAttack
     ) {
       throw new Error("Invalid attack.");
     }
 
-    this.board[x][y].hasAttack = true;
+    this.board[row][col].hasAttack = true;
 
-    if (this.board[x][y].ship === null) return;
+    if (this.board[row][col].ship === null) return;
 
-    this.board[x][y].ship.hit();
-    if (this.board[x][y].ship.isSunk()) {
-      this.board[x][y].ship.sunk = true;
+    this.board[row][col].ship.hit();
+    if (this.board[row][col].ship.isSunk()) {
+      this.board[row][col].ship.sunk = true;
     }
   }
 
