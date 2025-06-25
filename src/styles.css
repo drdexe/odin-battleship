@@ -1,5 +1,8 @@
-h1 {
+body {
   font-family: 'Courier New', Courier, monospace;
+}
+
+h1 {
   font-size: 4rem;
   text-align: center;
 }
@@ -86,4 +89,10 @@ h1 {
 
 .start {
   display: none;
+}
+
+.win {
+  font-size: 2rem;
+  margin: 2rem auto;
+  text-align: center;
 }

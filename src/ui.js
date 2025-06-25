@@ -136,6 +136,20 @@ export default (function ui() {
         opponent.gameboard.receiveAttack([row, col]);
         player.gameboard.receiveAttack(player.getRandomAttackCoords());
         updateBoards();
+
+        if (player.gameboard.allSunk() || opponent.gameboard.allSunk()) {
+          const winDiv = document.querySelector(".win");
+          if (opponent.gameboard.allSunk()) {
+            winDiv.textContent = "YOU WON!";
+          } else {
+            winDiv.textContent = "YOU LOST!";
+          }
+          document.querySelectorAll(".board").forEach((board) => {
+            board
+              .querySelectorAll(".cell")
+              .forEach((cell) => (cell.disabled = true));
+          });
+        }
       } catch (err) {
         console.log(err);
       }
