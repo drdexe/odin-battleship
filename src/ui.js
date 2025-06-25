@@ -12,6 +12,8 @@ export default (function ui() {
     createShipyard();
     initDragEvents();
     initRotateButton();
+    initStartButton();
+    initOpponentCells();
   }
 
   function createCells(boardDiv) {
@@ -21,6 +23,7 @@ export default (function ui() {
         cellButton.classList.add("cell");
         cellButton.dataset.row = i;
         cellButton.dataset.col = j;
+        cellButton.disabled = true;
         boardDiv.appendChild(cellButton);
       }
     }
@@ -79,22 +82,22 @@ export default (function ui() {
         document.querySelector(".rotate").style.display = "none";
         document.querySelector(".start").style.display = "block";
       }
+
+      updatePlayerShips();
     } catch (err) {
       console.log(err);
     }
-
-    updatePlayerBoard();
   }
 
-  function updatePlayerBoard() {
+  function updatePlayerShips() {
     for (let i = 0; i < Gameboard.SIZE; i++) {
       for (let j = 0; j < Gameboard.SIZE; j++) {
-        if (player.gameboard.board[i][j].ship !== null) {
-          document
-            .querySelector(
-              `.player.board > .cell[data-row="${i}"][data-col="${j}"]`,
-            )
-            .classList.add("ship");
+        const cell = player.gameboard.board[i][j];
+        const cellButton = document.querySelector(
+          `.player.board > .cell[data-row="${i}"][data-col="${j}"]`,
+        );
+        if (cell.ship !== null) {
+          cellButton.classList.add("ship");
         }
       }
     }
@@ -108,6 +111,64 @@ export default (function ui() {
         shipDiv.classList.toggle("vertical");
       });
     });
+  }
+
+  function initStartButton() {
+    const startButton = document.querySelector(".start");
+    startButton.addEventListener("click", () => {
+      startButton.style.display = "none";
+      document.querySelectorAll(".board").forEach((board) => {
+        board
+          .querySelectorAll(".cell")
+          .forEach((cell) => (cell.disabled = false));
+      });
+      opponent.placeShipsRandomly();
+    });
+  }
+
+  function initOpponentCells() {
+    const board = document.querySelector(".opponent.board");
+    board.addEventListener("click", (e) => {
+      const row = +e.target.dataset.row;
+      const col = +e.target.dataset.col;
+
+      try {
+        opponent.gameboard.receiveAttack([row, col]);
+        player.gameboard.receiveAttack(player.getRandomAttackCoords());
+        updateBoards();
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  }
+
+  function updateBoards() {
+    for (let i = 0; i < Gameboard.SIZE; i++) {
+      for (let j = 0; j < Gameboard.SIZE; j++) {
+        const playerCell = player.gameboard.board[i][j];
+        const opponentCell = opponent.gameboard.board[i][j];
+        const playerCellButton = document.querySelector(
+          `.player.board > .cell[data-row="${i}"][data-col="${j}"]`,
+        );
+        const opponentCellButton = document.querySelector(
+          `.opponent.board > .cell[data-row="${i}"][data-col="${j}"]`,
+        );
+        if (playerCell.ship !== null && playerCell.hasAttack) {
+          playerCellButton.classList.add("hit");
+          playerCellButton.disabled = true;
+        } else if (playerCell.hasAttack) {
+          playerCellButton.classList.add("miss");
+          playerCellButton.disabled = true;
+        }
+        if (opponentCell.ship !== null && opponentCell.hasAttack) {
+          opponentCellButton.classList.add("hit");
+          opponentCellButton.disabled = true;
+        } else if (opponentCell.hasAttack) {
+          opponentCellButton.classList.add("miss");
+          opponentCellButton.disabled = true;
+        }
+      }
+    }
   }
 
   return { init };

@@ -13,18 +13,31 @@ h1 {
   margin: auto;
 }
 
-.opponent.board > .cell {
+.opponent.board > .cell:not([disabled]) {
   cursor: crosshair;
+}
+
+.opponent.board > .cell:not([disabled]):hover {
+  background-color: #ddd;
 }
 
 .cell {
   font: inherit;
   border: none;
+  background-color: #eee;
   outline: 1px solid black;
 }
 
 .cell.ship {
   background-color: #555;
+}
+
+.cell.hit {
+  background-color: rgb(255, 133, 133);
+}
+
+.cell.miss {
+  background-color: rgb(133, 255, 179);
 }
 
 .shipyard {
@@ -60,6 +73,11 @@ h1 {
   outline: none;
   padding: 1rem;
   border-radius: .5rem;
+}
+
+.rotate:hover,
+.start:hover {
+  outline: 2px solid black;
 }
 
 .rotate {
