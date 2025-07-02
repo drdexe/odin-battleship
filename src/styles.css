@@ -5,7 +5,7 @@
 body {
   font-family: 'Courier New', Courier, monospace;
   margin: 0;
-  padding: 0;
+  padding: 1vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,7 +24,7 @@ hr {
 .board {
   display: grid;
   grid-template: repeat(10, 1fr) / repeat(10, 1fr);
-  width: min(500px, 100vw);
+  width: min(500px, 95vw);
   aspect-ratio: 1;
   outline: 1px solid black;
 }
@@ -74,8 +74,8 @@ hr {
 }
 
 .shipyard-ship > div {
-  width: 50px;
-  height: 50px;
+  width: calc(min(500px, 95vw) / 10);
+  aspect-ratio: 1;
   background-color: #555;
   outline: 1px solid black;
 }
