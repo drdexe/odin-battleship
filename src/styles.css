@@ -1,3 +1,8 @@
+:root {
+  --board-size: min(500px, 95vw);
+  --cell-size: calc(var(--board-size) / 10);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -24,7 +29,7 @@ hr {
 .board {
   display: grid;
   grid-template: repeat(10, 1fr) / repeat(10, 1fr);
-  width: min(500px, 95vw);
+  width: var(--board-size);
   aspect-ratio: 1;
   outline: 1px solid black;
 }
@@ -58,7 +63,7 @@ hr {
 
 .shipyard {
   display: flex;
-  gap: 1rem 50px;
+  gap: 1rem var(--cell-size);
   flex-wrap: wrap;
   width: 500px;
   margin: 2rem auto;
@@ -74,7 +79,7 @@ hr {
 }
 
 .shipyard-ship > div {
-  width: calc(min(500px, 95vw) / 10);
+  width: var(--cell-size);
   aspect-ratio: 1;
   background-color: #555;
   outline: 1px solid black;
