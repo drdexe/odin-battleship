@@ -24,8 +24,8 @@ hr {
 .board {
   display: grid;
   grid-template: repeat(10, 1fr) / repeat(10, 1fr);
-  width: 500px;
-  height: 500px;
+  width: min(500px, 100vw);
+  aspect-ratio: 1;
   outline: 1px solid black;
 }
 
