@@ -27,7 +27,6 @@ hr {
   width: 500px;
   height: 500px;
   outline: 1px solid black;
-  margin: auto;
 }
 
 .opponent.board > .cell:not([disabled]) {
